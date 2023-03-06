@@ -755,8 +755,8 @@ def _main():
     if opts.save_aggregate or opts.save_forensic:
         try:
             if opts.elasticsearch_hosts:
-                es_aggregate_index = "dmarc_aggregate"
-                es_forensic_index = "dmarc_forensic"
+                es_aggregate_index = "mail1-dmarc_aggregate"
+                es_forensic_index = "mail1-dmarc_forensic"
                 if opts.elasticsearch_index_suffix:
                     suffix = opts.elasticsearch_index_suffix
                     es_aggregate_index = "{0}_{1}".format(

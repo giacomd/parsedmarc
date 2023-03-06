@@ -45,7 +45,7 @@ class _SPFResult(InnerDoc):
 
 class _AggregateReportDoc(Document):
     class Index:
-        name = "dmarc_aggregate"
+        name = "mail1-dmarc_aggregate"
 
     xml_schema = Text()
     org_name = Text()
@@ -143,7 +143,7 @@ class _ForensicSampleDoc(InnerDoc):
 
 class _ForensicReportDoc(Document):
     class Index:
-        name = "dmarc_forensic"
+        name = "mail1-dmarc_forensic"
 
     feedback_type = Text()
     user_agent = Text()
@@ -320,9 +320,9 @@ def save_aggregate_report_to_elasticsearch(aggregate_report,
     end_date_query = Q(dict(match=dict(date_end=end_date)))
 
     if index_suffix is not None:
-        search = Search(index="dmarc_aggregate_{0}*".format(index_suffix))
+        search = Search(index="mail1-dmarc_aggregate_{0}*".format(index_suffix))
     else:
-        search = Search(index="dmarc_aggregate*")
+        search = Search(index="mail1-dmarc_aggregate*")
     query = org_name_query & report_id_query & domain_query
     query = query & begin_date_query & end_date_query
     search.query = query
@@ -388,7 +388,7 @@ def save_aggregate_report_to_elasticsearch(aggregate_report,
                                    scope=spf_result["scope"],
                                    result=spf_result["result"])
 
-        index = "dmarc_aggregate"
+        index = "mail1-dmarc_aggregate"
         if index_suffix:
             index = "{0}_{1}".format(index, index_suffix)
         index = "{0}-{1}".format(index, index_date)
@@ -440,9 +440,9 @@ def save_forensic_report_to_elasticsearch(forensic_report,
     arrival_date = human_timestamp_to_datetime(arrival_date_human)
 
     if index_suffix is not None:
-        search = Search(index="dmarc_forensic_{0}*".format(index_suffix))
+        search = Search(index="mail1-dmarc_forensic_{0}*".format(index_suffix))
     else:
-        search = Search(index="dmarc_forensic*")
+        search = Search(index="mail1-dmarc_forensic*")
     arrival_query = {"match": {"arrival_date": arrival_date}}
     q = Q(arrival_query)
 
@@ -525,7 +525,7 @@ def save_forensic_report_to_elasticsearch(forensic_report,
             sample=sample
         )
 
-        index = "dmarc_forensic"
+        index = "mail1-dmarc_forensic"
         if index_suffix:
             index = "{0}_{1}".format(index, index_suffix)
         if monthly_indexes:
